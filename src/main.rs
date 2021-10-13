@@ -1,7 +1,8 @@
-use rocket::{Build, launch, Rocket};
-use file_server::runserver;
+use file_server::{initialize_s3_client, runserver};
 
-#[launch]
-fn rocket() -> Rocket<Build> {
-      runserver()
+#[rocket::main]
+async fn main() -> Result<(), rocket::Error> {
+      let s3_client = initialize_s3_client().await;
+      runserver(s3_client).await
 }
+

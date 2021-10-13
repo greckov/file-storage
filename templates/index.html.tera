@@ -29,35 +29,29 @@
     <button type="button" class="btn btn-dark mt-3">Upload a new file</button>
 
     <table class="table w-100 mt-3">
-      <caption>Files, that uploaded by users</caption>
+      <caption>Files, which uploaded by users</caption>
 
       <tr>
         <th>File name</th>
         <th>Uploaded</th>
         <th>Actions</th>
       </tr>
-      <tr>
-        <td>example.jpg</td>
-        <td>2001-12-12 12:12:12</td>
-        <td>
-          <div class="btn-group">
-            <a class="btn btn-outline-success" href="#">View</a>
-            <a class="btn btn-outline-primary" download href="#">Download</a>
-            <a class="btn btn-outline-danger" href="#">Prune</a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>myfile.pdf</td>
-        <td>2021-12-14 15:55:00</td>
-        <td>
-          <div class="btn-group">
-            <a class="btn btn-outline-success" href="#">View</a>
-            <a class="btn btn-outline-primary" download href="#">Download</a>
-            <a class="btn btn-outline-danger" href="#">Prune</a>
-          </div>
-        </td>
-      </tr>
+
+      {% for file in files %}
+        <tr>
+          <td>
+            <a href="{{ file.url }}">{{ file.key }}</a>
+          </td>
+          <td>{{ file.uploaded_at }}</td>
+          <td>
+            <div class="btn-group">
+              <a class="btn btn-outline-success" href="#">View</a>
+              <a class="btn btn-outline-primary" download href="#">Download</a>
+              <a class="btn btn-outline-danger" href="#">Prune</a>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
     </table>
   </main>
 

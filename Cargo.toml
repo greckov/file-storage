@@ -8,3 +8,5 @@ readme = "README.md"
 rocket = "0.5.0-rc.1"
 rocket_dyn_templates = { version = "0.1.0-rc.1", features = ["tera"] }
 serde = { version = "1.0", features = ["derive"] }
+aws-config = { git = "https://github.com/awslabs/aws-sdk-rust", tag = "v0.0.20-alpha", package = "aws-config" }
+aws-sdk-s3 = { git = "https://github.com/awslabs/aws-sdk-rust", tag = "v0.0.20-alpha", package = "aws-sdk-s3" }
