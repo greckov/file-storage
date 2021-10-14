@@ -546,6 +546,7 @@ dependencies = [
  "rocket",
  "rocket_dyn_templates",
  "serde",
+ "tempfile",
 ]
 
 [[package]]

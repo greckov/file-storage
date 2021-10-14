@@ -1,7 +1,9 @@
 use serde::Serialize;
-use aws_sdk_s3::{Client, SdkError};
-use aws_sdk_s3::error::{DeleteObjectError, ListObjectsV2Error};
-use aws_sdk_s3::output::DeleteObjectOutput;
+use aws_sdk_s3::{ByteStream, Client, SdkError};
+use aws_sdk_s3::error::{DeleteObjectError, ListObjectsV2Error, PutObjectError};
+use aws_sdk_s3::model::ObjectCannedAcl;
+use aws_sdk_s3::output::{DeleteObjectOutput, PutObjectOutput};
+use crate::BUCKET_URL;
 
 const BUCKET_NAME: &str = "nure-cloud-task";
 
@@ -14,7 +16,6 @@ pub async fn initialize_s3_client() -> Client {
 pub struct FileListItem {
     pub key: String,
     pub url: String,
-    pub uploaded_at: String,
 }
 
 pub async fn fetch_file_list(client: &Client) -> Result<
@@ -31,10 +32,11 @@ pub async fn fetch_file_list(client: &Client) -> Result<
         .unwrap_or_default()
         .into_iter()
         .map(move |object| {
+            let object_key = object.key.expect("Empty object key is not supported");
+
             FileListItem {
-                key: object.key.expect("Empty object key is not supported"),
-                url: String::from("#"),
-                uploaded_at: String::from("stub")
+                url: String::from(format!("{}{}", BUCKET_URL, &object_key)),
+                key: object_key,
             }
         })
         .collect();
@@ -50,6 +52,22 @@ pub async fn drop_file_from_s3(
         .delete_object()
         .bucket(BUCKET_NAME)
         .key(key)
+        .send()
+        .await
+}
+
+pub async fn put_file_to_s3(
+    client: &Client,
+    name: &str,
+    stream: ByteStream
+) -> Result<PutObjectOutput, SdkError<PutObjectError>> {
+
+    client
+        .put_object()
+        .set_acl(Some(ObjectCannedAcl::PublicRead))
+        .bucket(BUCKET_NAME)
+        .key(name)
+        .body(stream)
         .send()
         .await
 }

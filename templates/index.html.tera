@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cloud technologies | Homework</title>
   <link rel="stylesheet" href="/static/lib/bs5/bootstrap.min.css">
+  <script>
+    const BUCKET_URL = '{{ bucket_url }}';
+  </script>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">File server</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -47,11 +51,9 @@
           <td>
             <a href="{{ file.url }}">{{ file.key }}</a>
           </td>
-          <td>{{ file.uploaded_at }}</td>
           <td>
             <div class="btn-group">
-              <a class="btn btn-outline-success" href="#">View</a>
-              <a class="btn btn-outline-primary" download href="#">Download</a>
+              <a class="btn btn-outline-primary" download href="{{ file.url }}">Download</a>
               <a class="btn btn-outline-danger btn-file-prune" data-key="{{ file.key }}">Prune</a>
             </div>
           </td>
@@ -76,7 +78,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="btn-file-upload">Submit file</button>
+            <button type="button" class="btn btn-primary" id="btn-file-upload" disabled>Submit file</button>
           </div>
         </div>
       </div>

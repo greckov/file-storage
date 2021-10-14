@@ -6,6 +6,9 @@ pub use storage::initialize_s3_client;
 
 mod views;
 mod storage;
+mod utils;
+
+const BUCKET_URL: &str = "https://nure-cloud-task.s3.eu-central-1.amazonaws.com/";
 
 pub async fn runserver(aws_client: Client) -> Result<(), rocket::Error> {
     let url_handlers = routes![
