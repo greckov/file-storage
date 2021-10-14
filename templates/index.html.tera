@@ -26,7 +26,12 @@
   </nav>
 
   <main class="container">
-    <button type="button" class="btn btn-dark mt-3">Upload a new file</button>
+    <button type="button"
+            class="btn btn-dark mt-3"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-upload-file">
+      Upload a new file
+    </button>
 
     <table class="table w-100 mt-3">
       <caption>Files, which uploaded by users</caption>
@@ -47,7 +52,7 @@
             <div class="btn-group">
               <a class="btn btn-outline-success" href="#">View</a>
               <a class="btn btn-outline-primary" download href="#">Download</a>
-              <a class="btn btn-outline-danger" href="#">Prune</a>
+              <a class="btn btn-outline-danger btn-file-prune" data-key="{{ file.key }}">Prune</a>
             </div>
           </td>
         </tr>
@@ -55,7 +60,30 @@
     </table>
   </main>
 
+    <div class="modal fade" tabindex="-1" id="modal-upload-file">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">File upload modal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Please select a file which you want to upload and press the submit file button</p>
+            <label>
+              File
+              <input type="file" id="inp-file-upload">
+            </label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btn-file-upload">Submit file</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   {# Page scripts #}
   <script src="/static/lib/bs5/bootstrap.min.js"></script>
+  <script src="/static/js/index.js" type="module"></script>
 </body>
 </html>

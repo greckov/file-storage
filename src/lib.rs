@@ -9,7 +9,9 @@ mod storage;
 
 pub async fn runserver(aws_client: Client) -> Result<(), rocket::Error> {
     let url_handlers = routes![
-        views::index
+        views::index,
+        views::upload_file,
+        views::prune_file
     ];
 
     rocket::build()

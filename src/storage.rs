@@ -1,6 +1,9 @@
-use std::error::Error;
 use serde::Serialize;
-use aws_sdk_s3::Client;
+use aws_sdk_s3::{Client, SdkError};
+use aws_sdk_s3::error::{DeleteObjectError, ListObjectsV2Error};
+use aws_sdk_s3::output::DeleteObjectOutput;
+
+const BUCKET_NAME: &str = "nure-cloud-task";
 
 pub async fn initialize_s3_client() -> Client {
     let config = aws_config::load_from_env().await;
@@ -14,10 +17,13 @@ pub struct FileListItem {
     pub uploaded_at: String,
 }
 
-pub async fn fetch_file_list(client: &Client) -> Result<Vec<FileListItem>, Box<dyn Error>> {
+pub async fn fetch_file_list(client: &Client) -> Result<
+    Vec<FileListItem>,
+    SdkError<ListObjectsV2Error>
+> {
     let resp = client
         .list_objects_v2()
-        .bucket("nure-cloud-task")
+        .bucket(BUCKET_NAME)
         .send()
         .await?;
 
@@ -34,4 +40,16 @@ pub async fn fetch_file_list(client: &Client) -> Result<Vec<FileListItem>, Box<d
         .collect();
 
     Ok(file_list)
+}
+
+pub async fn drop_file_from_s3(
+    client: &Client,
+    key: String
+) -> Result<DeleteObjectOutput, SdkError<DeleteObjectError>> {
+    client
+        .delete_object()
+        .bucket(BUCKET_NAME)
+        .key(key)
+        .send()
+        .await
 }
