@@ -1,7 +1,7 @@
 const fileField = document.getElementById('inp-file-upload');
 const btnUploadFile = document.getElementById('btn-file-upload');
 const resultsTable = document.querySelector('table > tbody');
-
+const modalUpload = new bootstrap.Modal(document.getElementById('modal-upload-file'));
 
 function setupPruneFileListener(button) {
   button.addEventListener('click', async function () {
@@ -51,6 +51,7 @@ btnUploadFile.addEventListener('click', async () => {
     `);
 
     setupPruneFileListener(document.querySelector('table td:last-child .btn-file-prune'));
+    modalUpload.hide();
     fileField.value = '';
 
   } else {

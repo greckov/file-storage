@@ -3,9 +3,7 @@ use aws_sdk_s3::{ByteStream, Client, SdkError};
 use aws_sdk_s3::error::{DeleteObjectError, ListObjectsV2Error, PutObjectError};
 use aws_sdk_s3::model::ObjectCannedAcl;
 use aws_sdk_s3::output::{DeleteObjectOutput, PutObjectOutput};
-use crate::BUCKET_URL;
-
-const BUCKET_NAME: &str = "nure-cloud-task";
+use crate::{BUCKET_NAME, BUCKET_URL};
 
 pub async fn initialize_s3_client() -> Client {
     let config = aws_config::load_from_env().await;
@@ -48,10 +46,12 @@ pub async fn drop_file_from_s3(
     client: &Client,
     key: String
 ) -> Result<DeleteObjectOutput, SdkError<DeleteObjectError>> {
+    let filename = html_escape::decode_html_entities(&key);
+
     client
         .delete_object()
         .bucket(BUCKET_NAME)
-        .key(key)
+        .key(filename)
         .send()
         .await
 }

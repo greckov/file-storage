@@ -40,25 +40,28 @@
     <table class="table w-100 mt-3">
       <caption>Files, which uploaded by users</caption>
 
-      <tr>
-        <th>File name</th>
-        <th>Uploaded</th>
-        <th>Actions</th>
-      </tr>
-
-      {% for file in files %}
+      <thead>
         <tr>
-          <td>
-            <a href="{{ file.url }}">{{ file.key }}</a>
-          </td>
-          <td>
-            <div class="btn-group">
-              <a class="btn btn-outline-primary" download href="{{ file.url }}">Download</a>
-              <a class="btn btn-outline-danger btn-file-prune" data-key="{{ file.key }}">Prune</a>
-            </div>
-          </td>
+          <th>File name</th>
+          <th>Actions</th>
         </tr>
-      {% endfor %}
+      </thead>
+
+      <tbody>
+        {% for file in files %}
+          <tr>
+            <td>
+              <a href="{{ file.url }}">{{ file.key }}</a>
+            </td>
+            <td>
+              <div class="btn-group">
+                <a class="btn btn-outline-primary" download href="{{ file.url }}">Download</a>
+                <a class="btn btn-outline-danger btn-file-prune" data-key="{{ file.key }}">Prune</a>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </main>
 

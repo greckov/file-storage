@@ -9,6 +9,7 @@ mod storage;
 mod utils;
 
 const BUCKET_URL: &str = "https://nure-cloud-task.s3.eu-central-1.amazonaws.com/";
+const BUCKET_NAME: &str = "nure-cloud-task";
 
 pub async fn runserver(aws_client: Client) -> Result<(), rocket::Error> {
     let url_handlers = routes![
@@ -20,7 +21,7 @@ pub async fn runserver(aws_client: Client) -> Result<(), rocket::Error> {
     rocket::build()
         .attach(Template::fairing())
         .mount("/", url_handlers)
-        .mount("/static", FileServer::from(relative!("static")))
+        .mount("/static", FileServer::from("static"))
         .manage(aws_client)
         .launch()
         .await
